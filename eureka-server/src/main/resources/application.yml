@@ -1,0 +1,48 @@
+#server:
+#  port: 10000
+#eureka:
+#  client:
+#    register-with-eureka: false
+#    fetch-registry: false
+#    service-url:
+#      defaultZone: http://localhost:${server.port}/eureka/
+
+#  eureka.client.register-with-eureka ：
+#  表示是否将自己注册到Eureka Server，默认为true。
+#  eureka.client.fetch-registry ：
+#  表示是否从Eureka Server获取注册信息，默认为true。
+#  service-url:
+#  客户端与Eureka服务端进行交互的地址
+
+spring:
+  application:
+    name: eureka-service
+---
+spring:
+  profiles: eurekaService1
+server:
+  port: 10000
+eureka:
+  instance:
+    appname: eureka-service
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:10001/eureka/
+  server:
+    enable-self-preservation: false #关闭自我保护机制
+    eviction-interval-timer-in-ms: 3000 #剔除服务间隔，单位毫秒
+
+---
+spring:
+  profiles: eurekaService2
+server:
+  port: 10001
+eureka:
+  instance:
+    appname: eureka-service
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:10000/eureka/
+  server:
+    enable-self-preservation: false #关闭自我保护机制
+    eviction-interval-timer-in-ms: 3000 #剔除服务间隔，单位毫秒

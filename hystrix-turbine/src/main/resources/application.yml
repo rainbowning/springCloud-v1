@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: turbine-service
+server:
+  port: 10003
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:10000/eureka/,http://localhost:10001/eureka/
+    registry-fetch-interval-seconds: 30  #每隔30秒抓取一次新的注册信息
+turbine:
+# 要监控的微服务列表，多个用,分隔
+  appConfig: index-service
+  clusterNameExpression: "'default'"
+

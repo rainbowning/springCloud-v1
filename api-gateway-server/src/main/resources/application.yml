@@ -1,0 +1,42 @@
+
+spring:
+  application:
+      name: api-gateway-server
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          #开启根据服务名称自动转发
+          enabled: true
+          #微服务名称以小写形式呈现
+          lower-case-service-id: true
+      routes:
+      - id: index #和转发路径无关，不重复就行
+        uri: lb://index-service
+        predicates:
+        - Path=/index/**
+      - id: product #和转发路径无关，不重复就行
+        uri: lb://product-service
+        predicates:
+        - Path=/product/**
+
+
+
+
+
+server:
+  port: 10005
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:10000/eureka/,http://localhost:10001/eureka/
+    registry-fetch-interval-seconds: 30  #每隔30秒抓取一次新的注册信息
+  instance:
+  #客户端实例每隔30秒向服务端发送心跳
+    lease-renewal-interval-in-seconds: 30
+    #表示eureka server至上一次收到client的心跳之后，等待下一次心跳的超时时间，
+    #在这个时间内若没收到下一次心跳，则将移除该instance
+    lease-expiration-duration-in-seconds: 90
+
+
+

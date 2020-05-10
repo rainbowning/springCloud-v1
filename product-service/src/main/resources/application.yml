@@ -1,0 +1,41 @@
+#server:
+#  port: 8080
+spring:
+  application:
+    name: product-service
+#eureka:
+#  client:
+#    service-url:
+#      defaultZone: http://localhost:10000/eureka/
+---
+spring:
+  profiles: productService1
+server:
+  port: 8080
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:10000/eureka/,http://localhost:10001/eureka/
+    registry-fetch-interval-seconds: 30  #每隔30秒抓取一次新的注册信息
+  instance:
+  #客户端实例每隔30秒向服务端发送心跳
+    lease-renewal-interval-in-seconds: 30
+    #表示eureka server至上一次收到client的心跳之后，等待下一次心跳的超时时间，
+    #在这个时间内若没收到下一次心跳，则将移除该instance
+    lease-expiration-duration-in-seconds: 90
+---
+spring:
+  profiles: productService2
+server:
+  port: 8081
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:10000/eureka/,http://localhost:10001/eureka/
+    registry-fetch-interval-seconds: 30  #每隔30秒抓取一次新的注册信息
+  instance:
+  #客户端实例每隔30秒向服务端发送心跳
+    lease-renewal-interval-in-seconds: 30
+    #表示eureka server至上一次收到client的心跳之后，等待下一次心跳的超时时间，
+    #在这个时间内若没收到下一次心跳，则将移除该instance
+    lease-expiration-duration-in-seconds: 90

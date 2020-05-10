@@ -1,0 +1,35 @@
+
+spring:
+  application:
+    name: zuul-service
+server:
+  port: 10004
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:10000/eureka/,http://localhost:10001/eureka/
+    registry-fetch-interval-seconds: 30  #每隔30秒抓取一次新的注册信息
+  instance:
+  #客户端实例每隔30秒向服务端发送心跳
+    lease-renewal-interval-in-seconds: 30
+    #表示eureka server至上一次收到client的心跳之后，等待下一次心跳的超时时间，
+    #在这个时间内若没收到下一次心跳，则将移除该instance
+    lease-expiration-duration-in-seconds: 90
+
+
+##自定义路由规则，默认的规则依然生效
+zuul:
+  routes:
+    api-index:
+      path: /index/**
+      serviceId: index-service
+    api-product:
+      path: /product/**
+      serviceId: product-service
+##统一入口为上面的配置，其他入口忽略
+  ignored-patterns: /*-service/**
+##处理http请求头为空的问题
+  sensitive-headers:
+##默认zuul会屏蔽cookie，cookie不会传到下游服务，这里设置为空则取消默认
+##的黑名单，表示会传递到下游服务，比如product-service
+
